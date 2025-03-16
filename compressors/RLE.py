@@ -1,62 +1,40 @@
-t = "xjhdueowpqmsncnvbxzlkajdhff"
-
-
-def RLE(text):
-    compressed_data = ''
-    f = 0
-    counter = 1
-    for i in range(1, len(text)):
-        if text[i] == text[i - 1]:
-            if f:
-                compressed_data += '$'
-                f = 0
-            counter += 1
-        if text[i] != text[i - 1] or i == len(text):
-            if counter > 1:
-                compressed_data += f'{chr(counter)}{text[i - 1]}'
-                counter = 1
-            else:
-                if not f:
-                    compressed_data += '$'
-                    f = 1
-                compressed_data += f'{text[i - 1]}'
-    if counter > 1:
-        compressed_data += f'{chr(counter)}{text[-1]}'
-    else:
-        if f:
-            compressed_data += f'{text[-1]}$'
-        else:
-            compressed_data += f'${text[-1]}$'
-
-    return compressed_data
-
-
-
-compressed = RLE(t)
-
-
-def RLE_decomposition(c_t):
-    original = ''
-    f = 0
+def RLE(data):
+    compressed_data = bytearray()
     i = 0
-    while i < len(c_t):
-        if c_t[i] == "$":
-            if f:
-                f = 0
-            else:
-                f = 1
+    while i < len(data):
+        len_repeating = 1
+        while i + len_repeating < len(data) and data[i] == data[i + len_repeating] and len_repeating < 255:
+            len_repeating += 1
+
+        if len_repeating > 1:
+            compressed_data.append(len_repeating)
+            compressed_data.append(data[i])
+            i += len_repeating
         else:
-            if f:
-                original += c_t[i]
-            else:
-                original += ord(c_t[i]) * c_t[i + 1]
+            start_unic = i
+            while i < len(data) - 1 and (data[i] != data[i + 1]) or (i > start_unic and data[i] == data[i - 1]):
                 i += 1
-        i += 1
-    return original
+                if i - start_unic >= 254:
+                    break
+            len_unic = i - start_unic + 1
+            compressed_data.append(0)
+            compressed_data.append(len_unic)
+            compressed_data.extend(data[start_unic:i + 1:])
+            i += 1
+
+    return bytes(compressed_data)
 
 
-decomp = RLE_decomposition(compressed)
-print(t)
-print(compressed)
-print(decomp)
-print(t == decomp)
+def RLE_decode(data):
+    original = bytearray()
+    i = 0
+    while i < len(data):
+        if data[i] == 0:
+            len_unic = data[i + 1]
+            original.extend(data[i + 2:i + 2 + len_unic])
+            i += 2 + len_unic
+        else:
+            len_repeat = data[i]
+            original.extend([data[i + 1]] * len_repeat)
+            i += 2
+    return bytes(original)
