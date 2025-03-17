@@ -1,8 +1,8 @@
-def LZ77(data):
+def LZ77(data, buffer=16):
     i = 0
     n = len(data)
-    window_size = 1024
-    buffer_size = 16
+    window_size = 4096
+    buffer_size = buffer
     compressed_data = []
 
     while i < n:

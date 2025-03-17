@@ -1,17 +1,17 @@
 '''для длинных последовательностей'''
-def BWT(data):
+def BWT(data, l=1000):
     code = bytearray()
-    for i in range(1000, len(data), 1000):
-        code.extend(BWT_help(data[i - 1000:i]))
+    for i in range(l, len(data), l):
+        code.extend(BWT_help(data[i - l:i]))
     code.extend(BWT_help(data[i:]))
     return bytes(code)
 
-def BWT_decode(cipher):
+def BWT_decode(cipher, l=1000):
     decoded_data = bytearray()
     i = 0
     while i < len(cipher):
         original_pos = int.from_bytes(cipher[i:i + 2], "big")
-        end = i + 2 + 1000 if i + 2 + 1000 <= len(cipher) else len(cipher)
+        end = i + 2 + l if i + 2 + l <= len(cipher) else len(cipher)
         decoded_data.extend(BWT_help_decode(cipher[i:end]))
         i = end
     return bytes(decoded_data)
