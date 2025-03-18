@@ -15,7 +15,7 @@ def LZ77(data, buffer=16):
             if k > match_len:
                 match_len = k
                 match_pos = i - j
-        if match_len >= 3:
+        if match_len >= 2:
             if i + match_len < n:
                 compressed_data.append((match_pos, match_len, data[i + match_len]))
                 i += match_len + 1
