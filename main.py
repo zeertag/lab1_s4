@@ -74,7 +74,7 @@ def compressors(data, c, t=0, file=None):
 def run():
     variants = ["Черно-белое изображение", "Цветное изображение", "Серое изображение", "Файл enwik7", "Файл exe",
                 "Текст на русском", "Текст на английском"]
-    v = ["bw_img.bmp", "color_img.bmp", "gray_img.bmp2", "enwik7.txt", "EscapeFromTarkov.exe", "rus_text.txt",
+    v = ["bw_img.raw", "color_img.raw", "gray_img.raw", "enwik7.txt", "EscapeFromTarkov.exe", "rus_text.txt",
          "test.txt"]
     for i in range(1, 8):
         print(f"{i}) {variants[i - 1]}")
@@ -103,7 +103,7 @@ def auto():
 
     variants = ["Черно-белое изображение", "Цветное изображение", "Серое изображение", "Файл enwik7", "Файл exe",
                 "Текст на русском", "Текст на английском"]
-    v = ["bw_img.bmp", "color_img.bmp", "gray_img.bmp", "enwik7.txt", "EscapeFromTarkov.exe", "rus_text.txt",
+    v = ["bw_img.raw", "color_img.raw", "gray_img.raw", "enwik7.txt", "EscapeFromTarkov.exe", "rus_text.txt",
          "test.txt"]
     variants2 = ["HA", "RLE", "BWT + RLE", "BWT + MTF + HA", "BWT + MTF + RLE + HA", "LZ77", "LZ77 + HA", "LZ78",
                  "LZ78 + HA"]

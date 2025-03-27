@@ -1,3 +1,6 @@
+import sys
+sys.setrecursionlimit(3000)
+
 def quick_sort(A):
     def divide(A, j):
         B = []
